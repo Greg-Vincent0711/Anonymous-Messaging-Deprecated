@@ -3,12 +3,12 @@
  * Backend to see messages as they appear
  */
 import React from "react";
-function Eavesdrop() {
+function Talk() {
   return (
     <div>
-      <h1>Eavesdrop</h1>
+      <h1>Talk</h1>
     </div>
   );
 }
 
-export default Eavesdrop;
+export default Talk;

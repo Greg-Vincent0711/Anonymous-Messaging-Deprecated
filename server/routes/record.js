@@ -4,12 +4,12 @@
  * file that is based more in express and does not touch mongodb as directly
  */
 const express = require("express");
-//router directly works with the server
 const recordRoutes = express.Router();
 //checks if we connected successfully
 const dbo = require("../db/conn");
 const ObjectId = require("mongodb").ObjectId;
 
+//adding different routes/functions to be used
 //returns a list of all records
 recordRoutes.route("/record").get(function (req, res) {
   let db_connect = dbo.getDb("comments");
@@ -38,9 +38,7 @@ recordRoutes.route("/record/:id").get(function (req, res) {
 recordRoutes.route("/record/add").post(function (req, response) {
   let db_connect = dbo.getDb();
   let myobj = {
-    name: req.body.name,
-    position: req.body.position,
-    level: req.body.level,
+    message: req.body.message,
   };
   db_connect.collection("records").insertOne(myobj, function (err, res) {
     if (err) throw err;
@@ -54,9 +52,7 @@ recordRoutes.route("/update/:id").post(function (req, response) {
   let myquery = { _id: ObjectId(req.params.id) };
   let newvalues = {
     $set: {
-      name: req.body.name,
-      position: req.body.position,
-      level: req.body.level,
+      message: req.body.message,
     },
   };
   db_connect

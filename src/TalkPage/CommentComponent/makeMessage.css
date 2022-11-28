@@ -1,0 +1,8 @@
+.comment-backdrop {
+  width: 500px;
+  height: 400px;
+  color: lightgrey;
+  border-radius: 3rem; /*rounded edges*/
+  display: flex;
+  justify-content: center;
+}
