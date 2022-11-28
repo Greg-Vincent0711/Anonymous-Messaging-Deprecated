@@ -1,20 +1,21 @@
-import React from 'react';
-import Navbar from './components/NavbarComponent/Navbar';
-import Form from './components/Form-Component/Form'
+import React from "react";
+import Navbar from "./NavBar/Navbar";
+import { Routes, Route } from "react-router-dom";
+import HomePage from "./homePage/homePage";
+import Talk from "./TalkPage/Talk";
+import WhyPage from "./WhyPage/WhyPage";
 //all components are put here
-function App(){
-    return(
-        <div>
-            <Navbar>
-                <h3>Anonymous</h3>
-                <h3>Eavesdrop</h3>
-                <h3>Who and Why</h3>
-            </Navbar>
-            <Form
-            formTitle = "Login or Sign Up"
-            />
-        </div>
-    )
+function App() {
+  return (
+    <div>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/Talk" element={<Talk />} />
+        <Route path="/WhyPage" element={<WhyPage />} />
+      </Routes>
+    </div>
+  );
 }
 
 export default App;
