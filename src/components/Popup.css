@@ -1,0 +1,45 @@
+/* Styling for the Popup */
+
+.Popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(255, 255, 255, 0.4);
+  z-index: 100;
+}
+
+.Popup-inner {
+  position: fixed;
+  display: block;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(20, 20, 20);
+  width: 600px;
+  height: 620px;
+  border-radius: 50px;
+  left: 35%;
+  top: 8%;
+  color: white;
+  text-align: center;
+}
+
+.Popup-inner .exit-btn {
+  position: relative;
+  float: right;
+  width: 27px;
+  height: 27px;
+  right: 30px;
+  top: 10px;
+  background-color: rgba(255, 255, 255, 1);
+  color: black;
+  font-size: 20px;
+  border-radius: 6px;
+}
+
+.Popup-inner .exit-btn:hover {
+  transition: all 1s ease;
+  background-color: rgba(0, 0, 0, 1);
+  color: white;
+}
