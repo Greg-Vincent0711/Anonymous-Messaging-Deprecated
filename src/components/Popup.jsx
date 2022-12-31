@@ -6,7 +6,6 @@ import "./Popup.css";
  * @date 12/15/22
  * First version of this Popup
  * TODO - recreate logic without using state so much
- * TODO - Finishing adding onBlur animation
  * TODO - add regex to form validation. Can't have special characters.
  * const validExpr = /^[A-Za-z]+$/; - regex for only A-Z and a-z
  * all todos will be in a future update
