@@ -25,8 +25,8 @@ function Popup(props) {
   const [wasPasswordTouched, setWasPasswordTouched] = useState(false);
 
   //needed for instant validation for a user typing
-  const [enteredName, setEneteredName] = useState("");
-  const [enteredPassword, setEneteredPassword] = useState("");
+  const [enteredName, setEnteredName] = useState("");
+  const [enteredPassword, setEnteredPassword] = useState("");
 
   //button animation state
   const [hovering, setHovering] = useState(false);
@@ -68,7 +68,7 @@ function Popup(props) {
    * This function will grow with regex
    */
   const validate = (arg) => {
-    if (arg.trim() === "") {
+    if (arg.trim().length === 0) {
       return false;
     } else {
       return true;
@@ -77,7 +77,7 @@ function Popup(props) {
 
   const handleNameChange = (event) => {
     setWasNameTouched(true);
-    setEneteredName(event.target.value);
+    setEnteredName(event.target.value);
     if (validate(enteredName)) {
       setIsNameValid(true);
     }
@@ -85,7 +85,7 @@ function Popup(props) {
 
   const handlePasswordChange = (event) => {
     setWasPasswordTouched(true);
-    setEneteredPassword(event.target.value);
+    setEnteredPassword(event.target.value);
     if (validate(enteredPassword)) {
       setIsPasswordValid(true);
     }
