@@ -1,17 +1,16 @@
-//basic setup from MERN tutorial
 /**
  * Record.js is slightlly more abstract
  * file that is based more in express and does not touch mongodb as directly
+ * But is important to performing backend operations
  */
 const express = require("express");
-const recordRoutes = express.Router();
+const records = express.Router();
 //checks if we connected successfully
 const dbo = require("../db/conn");
 const ObjectId = require("mongodb").ObjectId;
 
-//adding different routes/functions to be used
 //returns a list of all records
-recordRoutes.route("/record").get(function (req, res) {
+records.route("/record").get(function (req, res) {
   let db_connect = dbo.getDb("comments");
   db_connect
     .collection("records")
@@ -23,7 +22,7 @@ recordRoutes.route("/record").get(function (req, res) {
 });
 
 //returns a single record by ID
-recordRoutes.route("/record/:id").get(function (req, res) {
+records.route("/record/:id").get(function (req, res) {
   let db_connect = dbo.getDb();
   //myquery is the parameter the user gives in order to find a record
   let myquery = { _id: ObjectId(req.params.id) };
@@ -35,22 +34,24 @@ recordRoutes.route("/record/:id").get(function (req, res) {
 });
 
 //adds a record to the database through the post function
-recordRoutes.route("/record/add").post(function (req, response) {
+records.route("/record/add").post(function (req, response) {
   let db_connect = dbo.getDb();
   let myobj = {
     message: req.body.message,
   };
   db_connect.collection("records").insertOne(myobj, function (err, res) {
     if (err) throw err;
+    //as a response, return a JSON of the given data into the DB
     response.json(res);
   });
 });
 
 //update a record
-recordRoutes.route("/update/:id").post(function (req, response) {
+records.route("/update/:id").post(function (req, response) {
   let db_connect = dbo.getDb();
   let myquery = { _id: ObjectId(req.params.id) };
   let newvalues = {
+    //change the message itself
     $set: {
       message: req.body.message,
     },
@@ -65,7 +66,7 @@ recordRoutes.route("/update/:id").post(function (req, response) {
 });
 
 //delete a record
-recordRoutes.route("/:id").delete((req, response) => {
+records.route("/:id").delete((req, response) => {
   let db_connect = dbo.getDb();
   let myquery = { _id: ObjectId(req.params.id) };
   db_connect.collection("records").deleteOne(myquery, function (err, obj) {
@@ -75,4 +76,4 @@ recordRoutes.route("/:id").delete((req, response) => {
   });
 });
 
-module.exports = recordRoutes;
+module.exports = records;

@@ -1,0 +1,15 @@
+* {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.main-content {
+  position: relative;
+  /* display: flex; */
+  text-align: center;
+}
+
+.main-content p {
+  margin-top: 20vh;
+  padding: 10rem;
+  margin: 10rem;
+}
