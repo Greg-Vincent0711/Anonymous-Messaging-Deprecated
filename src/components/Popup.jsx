@@ -1,24 +1,23 @@
 import React from "react";
-import { useState, useRef } from "react";
+import { useState, useRef, useContext } from "react";
+import FormContext from "../context/form-context";
 import "./Popup.css";
 /**
  * @author Greg Vincent
  * @date 12/15/22
  * First version of this Popup
- * TODO - recreate logic without using state so much
+ * TODO - refactor logic so it isn't so reliant on state
+ * TODO - i.e, with useEffect, useReducer, etc
  * TODO - add regex to form validation. Can't have special characters.
  * const validExpr = /^[A-Za-z]+$/; - regex for only A-Z and a-z
  * all todos will be in a future update
  */
 function Popup(props) {
-  //sets popup visibility
   const [visiblePopup, setVisiblePopup] = useState(true);
 
-  //ref for submission validation
   const nameRef = useRef();
   const passwordRef = useRef();
 
-  //if either is empty and the form is touched display a value
   const [nameIsValid, setIsNameValid] = useState(false);
   const [passwordIsValid, setIsPasswordValid] = useState(false);
   const [wasNameTouched, setWasNameTouched] = useState(false);
@@ -28,29 +27,29 @@ function Popup(props) {
   const [enteredName, setEnteredName] = useState("");
   const [enteredPassword, setEnteredPassword] = useState("");
 
-  //button animation state
+  //btn onHover/offHover animation
   const [hovering, setHovering] = useState(false);
 
-  /**
-   * Validates with ref on submit
-   */
+  let ctx = useContext(FormContext);
+  ctx.isFormVisible = visiblePopup;
+  // ctx.showName = nameRef.current.value;
+
   function handleSubmit(event) {
     event.preventDefault();
     setWasNameTouched(true);
     setWasPasswordTouched(true);
-
     const submittedName = String(nameRef.current.value).trim();
     const submittedPassword = String(passwordRef.current.value).trim();
-    validate(submittedName) ? setIsNameValid(false) : setIsNameValid(true);
+    validate(submittedName) ? setIsNameValid(true) : setIsNameValid(false);
     validate(submittedPassword)
-      ? setIsPasswordValid(false)
-      : setIsPasswordValid(true);
-    nameIsValid && passwordIsValid
-      ? setVisiblePopup(false)
-      : setVisiblePopup(true);
+      ? setIsPasswordValid(true)
+      : setIsPasswordValid(false);
+    if (nameIsValid && passwordIsValid) {
+      setVisiblePopup(false);
+      backendFormSubmission();
+    }
   }
 
-  //functions for mouseOn/mouseOff hover animation
   const mouseEnter = () => {
     setHovering(true);
   };
@@ -59,20 +58,33 @@ function Popup(props) {
     setHovering(false);
   };
 
-  //quick development function
-  // function tempSubmit() {
-  //   setVisiblePopup(true);
-  // }
+  async function backendFormSubmission() {
+    const identificationPair = {
+      name: nameRef.current.value,
+      password: passwordRef.current.value,
+    };
+
+    await fetch("http://localhost:5000/record/add", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(identificationPair),
+    }).catch((error) => {
+      window.alert(error);
+      return;
+    });
+  }
 
   /**
    * This function will grow with regex
    */
   const validate = (arg) => {
-    if (arg.trim().length === 0) {
-      return false;
-    } else {
+    //empty space is length 1
+    if (!(arg === " " || arg.length === 0)) {
       return true;
     }
+    return false;
   };
 
   const handleNameChange = (event) => {
@@ -113,7 +125,7 @@ function Popup(props) {
     }
   };
 
-  return visiblePopup ? (
+  return ctx.isFormVisible ? (
     <div className="Popup">
       <div className="Popup-inner">
         {props.children}

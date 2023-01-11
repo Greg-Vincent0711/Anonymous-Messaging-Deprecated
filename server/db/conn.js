@@ -18,7 +18,7 @@ module.exports = {
       // Verify we got a good "db" object
       if (db) {
         _db = db.db("comments");
-        console.log("Successfully connected to MongoDB.");
+        console.log("Successfully connected to Username/Password collection.");
       }
       return callback(err);
     });

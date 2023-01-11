@@ -24,9 +24,9 @@ records.route("/record").get(function (req, res) {
 //returns a single record by ID
 records.route("/record/:id").get(function (req, res) {
   let db_connect = dbo.getDb();
-  //myquery is the parameter the user gives in order to find a record
-  let myquery = { _id: ObjectId(req.params.id) };
-  db_connect.collection("records").findOne(myquery, function (err, result) {
+  //getQuery is the parameter the user gives in order to find a record
+  let getQuery = { _id: ObjectId(req.params.id) };
+  db_connect.collection("records").findOne(getQuery, function (err, result) {
     if (err) throw err;
     //if found, return the result as json
     res.json(result);
@@ -36,10 +36,11 @@ records.route("/record/:id").get(function (req, res) {
 //adds a record to the database through the post function
 records.route("/record/add").post(function (req, response) {
   let db_connect = dbo.getDb();
-  let myobj = {
-    message: req.body.message,
+  let postQuery = {
+    name: req.body.name,
+    password: req.body.password,
   };
-  db_connect.collection("records").insertOne(myobj, function (err, res) {
+  db_connect.collection("records").insertOne(postQuery, function (err, res) {
     if (err) throw err;
     //as a response, return a JSON of the given data into the DB
     response.json(res);
@@ -49,16 +50,17 @@ records.route("/record/add").post(function (req, response) {
 //update a record
 records.route("/update/:id").post(function (req, response) {
   let db_connect = dbo.getDb();
-  let myquery = { _id: ObjectId(req.params.id) };
+  let patchQuery = { _id: ObjectId(req.params.id) };
   let newvalues = {
     //change the message itself
     $set: {
-      message: req.body.message,
+      name: req.body.name,
+      password: req.body.password,
     },
   };
   db_connect
     .collection("records")
-    .updateOne(myquery, newvalues, function (err, res) {
+    .updateOne(patchQuery, newvalues, function (err, res) {
       if (err) throw err;
       console.log("1 document updated");
       response.json(res);
@@ -68,8 +70,8 @@ records.route("/update/:id").post(function (req, response) {
 //delete a record
 records.route("/:id").delete((req, response) => {
   let db_connect = dbo.getDb();
-  let myquery = { _id: ObjectId(req.params.id) };
-  db_connect.collection("records").deleteOne(myquery, function (err, obj) {
+  let deleteQuery = { _id: ObjectId(req.params.id) };
+  db_connect.collection("records").deleteOne(deleteQuery, function (err, obj) {
     if (err) throw err;
     console.log("1 document deleted");
     response.json(obj);

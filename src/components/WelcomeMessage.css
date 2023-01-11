@@ -1,0 +1,46 @@
+.invisible-welcome {
+  opacity: 0;
+}
+.visible-welcome {
+  color: white;
+  opacity: 100;
+  position: absolute;
+  margin: 1.5rem;
+  animation: 1s ease-in fade-in;
+  font-size: 2.3rem;
+}
+
+@-webkit-keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+
+  75% {
+    opacity: 0.75;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+
+  75% {
+    opacity: 0.75;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
