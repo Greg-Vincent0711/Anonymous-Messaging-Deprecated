@@ -6,8 +6,8 @@
  */
 import "./addComment.css";
 import React, { useState } from "react";
-
-export default function addComment() {
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+export default function AddComment() {
   const [message, setMessage] = useState({
     message: "",
   });

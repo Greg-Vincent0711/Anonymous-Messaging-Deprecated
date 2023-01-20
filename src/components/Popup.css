@@ -1,17 +1,16 @@
 /*Background grey color*/
 .Popup {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100vh;
-  background-color: rgba(255, 255, 255, 0.1);
+  /* background-color: rgba(255, 255, 255, 0.1); */
   z-index: 100;
 }
 
-/*Actual form styling*/
 .Popup-inner {
-  position: fixed;
+  position: absolute;
   animation: 1s ease-in fade-in;
   display: block;
   justify-content: center;
@@ -57,11 +56,9 @@
   width: 290px;
   font-size: 2.2rem;
   background-color: inherit;
-  /* background-color: rgba(255, 255, 255, 0.02); */
   color: white;
   border: none;
   border-bottom: 1px solid white;
-  /* border-radius: 10px; */
 }
 
 .Popup-inner button {
@@ -91,7 +88,6 @@
 }
 
 #error-message-password {
-  left: 35% !important;
   margin-top: 2rem;
 }
 
@@ -101,6 +97,45 @@
 
 .Popup-inner input {
   position: relative;
+}
+
+.submit-welcome{
+  color: white;
+  position: absolute;
+  /*top right bottom left*/
+  margin: 2.5rem 0 4rem 6rem;
+}
+
+/*laptop dimensions adjustments*/
+@media only screen and (max-width: 1920px){
+  .Popup-inner input::placeholder{
+    padding-left: 60px;
+  }
+
+  .Popup-inner input{
+    font-size: 2.3rem;
+  }
+
+  .Popup-inner button{
+    top: 10rem;
+    font-size: 2.4rem;
+  }
+
+  .error-message{
+    font-size: 1.2rem;
+    left: 32%;
+    margin-top: -.7rem;
+  }
+  #error-message-password{
+    left: 33% !important;
+    margin-top: 1.1rem !important;
+  }
+
+  .Popup-inner h1 {
+    margin-top: 2rem;
+    font-size: 3rem;
+    margin-left: 1.5rem;
+  }
 }
 
 @-webkit-keyframes fade-in {
