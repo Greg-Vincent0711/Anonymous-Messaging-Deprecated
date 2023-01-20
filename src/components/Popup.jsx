@@ -1,6 +1,5 @@
 import React from "react";
-import { useState, useRef, useContext } from "react";
-import FormContext from "../context/form-context";
+import { useState, useRef} from "react";
 import "./Popup.css";
 /**
  * @author Greg Vincent
@@ -29,10 +28,6 @@ function Popup(props) {
 
   //btn onHover/offHover animation
   const [hovering, setHovering] = useState(false);
-
-  let ctx = useContext(FormContext);
-  ctx.isFormVisible = visiblePopup;
-  // ctx.showName = nameRef.current.value;
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -125,7 +120,7 @@ function Popup(props) {
     }
   };
 
-  return ctx.isFormVisible ? (
+  return visiblePopup ? (
     <div className="Popup">
       <div className="Popup-inner">
         {props.children}
@@ -175,7 +170,9 @@ function Popup(props) {
       </div>
     </div>
   ) : (
-    ""
+    <div className = "submit-welcome">
+      <h1> Welcome, {nameRef.current.value}!</h1>
+    </div>
   );
 }
 

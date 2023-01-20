@@ -4,8 +4,6 @@
  */
 import React from "react";
 import Popup from "./components/Popup";
-// import WelcomeMessage from "./components/WelcomeMessage";
-import FormContext from "./context/form-context";
 import AboutPage from "./components/AboutPage";
 import "./App.css";
 
@@ -18,10 +16,8 @@ import "./App.css";
 function App() {
   return (
     <>
-    <FormContext.Provider value={{ isFormVisible: true }}>
-      <Popup />
-    </FormContext.Provider>
-    <AboutPage/>
+        <Popup />
+      <AboutPage/>
     </>
   );
 }

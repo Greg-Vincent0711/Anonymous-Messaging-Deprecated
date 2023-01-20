@@ -99,6 +99,13 @@
   position: relative;
 }
 
+.submit-welcome{
+  color: white;
+  position: absolute;
+  /*top right bottom left*/
+  margin: 2.5rem 0 4rem 6rem;
+}
+
 /*laptop dimensions adjustments*/
 @media only screen and (max-width: 1920px){
   .Popup-inner input::placeholder{
