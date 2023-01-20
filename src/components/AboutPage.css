@@ -1,15 +1,26 @@
-* {
-  color: rgba(255, 255, 255, 0.8);
+html{
+  background-color:inherit;
 }
-
-.main-content {
-  position: relative;
-  /* display: flex; */
+#about-page{
+  position: absolute;
   text-align: center;
+  font-size: 2rem;
+  border-top: 1px solid #ccc;
+  padding: 2rem;
+  padding-top: 20px;
+  /*top right bottom left*/
+  margin: 60% 20rem 0 20rem;
 }
 
-.main-content p {
-  margin-top: 20vh;
-  padding: 10rem;
-  margin: 10rem;
+#about-page h1{
+  font-size: 3rem;
+}
+
+.visible{
+  color: white;
+  transition: 1.5s ease;
+}
+
+.invisible{
+  opacity: 0;
 }

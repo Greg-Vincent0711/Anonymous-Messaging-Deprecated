@@ -135,7 +135,8 @@ function Popup(props) {
         <br /> <br />
         <input
           type="text"
-          placeholder="       username"
+          placeholder="Username"
+          id="username-input"
           ref={nameRef}
           onBlur={handleNameBlur}
           onChange={handleNameChange}
@@ -150,7 +151,7 @@ function Popup(props) {
         <input
           type="text"
           id="password-input"
-          placeholder="       password"
+          placeholder="Password"
           ref={passwordRef}
           onBlur={handlePasswordBlur}
           onChange={handlePasswordChange}

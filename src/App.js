@@ -4,10 +4,11 @@
  */
 import React from "react";
 import Popup from "./components/Popup";
-import WelcomeMessage from "./components/WelcomeMessage";
+// import WelcomeMessage from "./components/WelcomeMessage";
 import FormContext from "./context/form-context";
+import AboutPage from "./components/AboutPage";
 import "./App.css";
-// import AboutPage from "./components/AboutPage";
+
 /**
  * TODO - add code splitting in the future.
  * Certain components only need to be rendered at a
@@ -16,11 +17,13 @@ import "./App.css";
 
 function App() {
   return (
-    //isFormVisible is not a constant value
+    <>
     <FormContext.Provider value={{ isFormVisible: true }}>
       <Popup />
     </FormContext.Provider>
+    <AboutPage/>
+    </>
   );
 }
 export default App;
-// <WelcomeMessage />
+
