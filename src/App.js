@@ -6,6 +6,7 @@ import React from "react";
 import Popup from "./components/Popup";
 import AboutPage from "./components/AboutPage";
 import "./App.css";
+import axios from "axios";
 
 /**
  * TODO - add code splitting in the future.
@@ -14,12 +15,14 @@ import "./App.css";
  */
 
 function App() {
+  axios.defaults.baseURL = "http://localhost:5000";
+  //send cookies automatically
+  axios.defaults.withCredentials = true;
   return (
     <>
-        <Popup />
-      <AboutPage/>
+      <Popup />
+      <AboutPage />
     </>
   );
 }
 export default App;
-

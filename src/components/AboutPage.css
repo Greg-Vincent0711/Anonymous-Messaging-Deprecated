@@ -1,5 +1,4 @@
-
-#about-page{
+#about-page {
   position: absolute;
   text-align: center;
   font-size: 2rem;
@@ -10,15 +9,15 @@
   margin: 60% 20rem 0 20rem;
 }
 
-#about-page h1{
+#about-page h1 {
   font-size: 3rem;
 }
 
-.visible{
+.visible {
   color: white;
   transition: 1.5s ease;
 }
 
-.invisible{
+.invisible {
   opacity: 0;
 }

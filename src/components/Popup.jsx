@@ -1,47 +1,107 @@
 import React from "react";
-import { useState, useRef} from "react";
+import { useState, useRef } from "react";
+import axios from "axios";
 import "./Popup.css";
 /**
  * @author Greg Vincent
- * @date 12/15/22
- * First version of this Popup
- * TODO - refactor logic so it isn't so reliant on state
- * TODO - i.e, with useEffect, useReducer, etc
+ * @date 1/26/23
+ * Pursued useState over Reducer
  * TODO - add regex to form validation. Can't have special characters.
  * const validExpr = /^[A-Za-z]+$/; - regex for only A-Z and a-z
  * all todos will be in a future update
  */
-function Popup(props) {
-  const [visiblePopup, setVisiblePopup] = useState(true);
 
+// const userInfoReducer = (state, action) => {
+//   if (action.type === "username_change") {
+//     return {
+//       isNameValid: validate(action.username),
+//       nameTouched: true,
+//     };
+//   }
+//   if (action.type === "password_change") {
+//     return {
+//       isPasswordValid: validate(action.password),
+//       passwordTouched: true,
+//     };
+//   }
+//   if (action.type === "username_inputblur") {
+//     return {
+//       isNameValid: validate(state.userName),
+//       nameTouched: true,
+//     };
+//   }
+//   if (action.type === "password_inputblur") {
+//     return {
+//       isPassWordValid: validate(state.passWord),
+//       passwordTouched: true,
+//     };
+//   }
+//   return {
+//     userName: "",
+//     passWord: "",
+//     isNameValid: false,
+//     isPasswordValid: false,
+//     nameTouched: false,
+//     passwordTouched: false,
+//   };
+// };
+
+/**
+ * This function will grow with regex
+ * TODO - change so that if string is a space, form is invalid
+ */
+function validate(arg) {
+  return !(String(arg).trim() === " " || String(arg).length === 0)
+    ? true
+    : false;
+}
+
+function Popup() {
+  const [visiblePopup, setVisiblePopup] = useState(true);
   const nameRef = useRef();
   const passwordRef = useRef();
 
-  const [nameIsValid, setIsNameValid] = useState(false);
-  const [passwordIsValid, setIsPasswordValid] = useState(false);
-  const [wasNameTouched, setWasNameTouched] = useState(false);
-  const [wasPasswordTouched, setWasPasswordTouched] = useState(false);
-
-  //needed for instant validation for a user typing
-  const [enteredName, setEnteredName] = useState("");
-  const [enteredPassword, setEnteredPassword] = useState("");
+  // const [nameIsValid, setIsNameValid] = useState(false);
+  // const [passwordIsValid, setIsPasswordValid] = useState(false);
+  const [nameTouched, setNameTouched] = useState(false);
+  const [passwordTouched, setPasswordTouched] = useState(false);
+  const [name, setName] = useState("");
+  const [password, setPassword] = useState("");
 
   //btn onHover/offHover animation
   const [hovering, setHovering] = useState(false);
 
-  function handleSubmit(event) {
+  //reducer takes a function, and an initial state object
+  // const [userInfo, dispatchInfoCommand] = useReducer(userInfoReducer, {
+  //   userName: "",
+  //   passWord: "",
+  //   isNameValid: null,
+  //   isPasswordValid: null,
+  //   nameTouched: null,
+  //   passwordTouched: null,
+  // });
+
+  //function validates before submitting to backend
+  async function handleSubmit(event) {
     event.preventDefault();
-    setWasNameTouched(true);
-    setWasPasswordTouched(true);
-    const submittedName = String(nameRef.current.value).trim();
-    const submittedPassword = String(passwordRef.current.value).trim();
-    validate(submittedName) ? setIsNameValid(true) : setIsNameValid(false);
-    validate(submittedPassword)
-      ? setIsPasswordValid(true)
-      : setIsPasswordValid(false);
-    if (nameIsValid && passwordIsValid) {
+    if (
+      validate(nameRef.current.value) &&
+      validate(passwordRef.current.value)
+    ) {
       setVisiblePopup(false);
-      backendFormSubmission();
+      const submitName = nameRef.current.value;
+      const submitPassword = passwordRef.current.value;
+      // const submitName = "helloGreg";
+      // const submitPassword = "helloVincent";
+      try {
+        //this call accesses the register endpoint from the client side
+        await axios.post("/register", {
+          submitName,
+          submitPassword,
+        });
+      } catch (error) {
+        console.error(error);
+      }
     }
   }
 
@@ -53,79 +113,29 @@ function Popup(props) {
     setHovering(false);
   };
 
-  async function backendFormSubmission() {
-    const identificationPair = {
-      name: nameRef.current.value,
-      password: passwordRef.current.value,
-    };
-
-    await fetch("http://localhost:5000/record/add", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(identificationPair),
-    }).catch((error) => {
-      window.alert(error);
-      return;
-    });
-  }
-
-  /**
-   * This function will grow with regex
-   */
-  const validate = (arg) => {
-    //empty space is length 1
-    if (!(arg === " " || arg.length === 0)) {
-      return true;
-    }
-    return false;
-  };
-
   const handleNameChange = (event) => {
-    setWasNameTouched(true);
-    setEnteredName(event.target.value);
-    if (validate(enteredName)) {
-      setIsNameValid(true);
-    }
+    setName(event.target.value);
+    setNameTouched(true);
   };
 
   const handlePasswordChange = (event) => {
-    setWasPasswordTouched(true);
-    setEnteredPassword(event.target.value);
-    if (validate(enteredPassword)) {
-      setIsPasswordValid(true);
-    }
+    setPassword(event.target.value);
+    setPasswordTouched(true);
   };
 
-  /**
-   * onChange and onBlur functions
-   * Both need to work with state
-   * onSubmit needs ref
-   */
-
   const handleNameBlur = () => {
-    setWasNameTouched(true);
-    if (!validate(enteredName)) {
-      setIsNameValid(false);
-      return;
-    }
+    setNameTouched(true);
   };
 
   const handlePasswordBlur = () => {
-    setWasPasswordTouched(true);
-    if (!validate(enteredPassword)) {
-      setIsPasswordValid(false);
-      return;
-    }
+    setPasswordTouched(true);
   };
 
   return visiblePopup ? (
-    <div className="Popup">
+    <form className="Popup" onSubmit={handleSubmit}>
       <div className="Popup-inner">
-        {props.children}
         <h1>
-          <em>Join the Conversation</em>
+          <em>Login or Signup</em>
         </h1>
         <br /> <br />
         <input
@@ -135,32 +145,29 @@ function Popup(props) {
           ref={nameRef}
           onBlur={handleNameBlur}
           onChange={handleNameChange}
-          value={enteredName}
         />
-        {!nameIsValid && wasNameTouched && (
+        {!validate(name) && nameTouched && (
           <p className="error-message" id="error-message-name">
-            Username can't be empty.
+            Username is invalid.
           </p>
         )}
         <br /> <br />
         <input
-          type="text"
+          type="password"
           id="password-input"
           placeholder="Password"
           ref={passwordRef}
           onBlur={handlePasswordBlur}
           onChange={handlePasswordChange}
-          value={enteredPassword}
         />
-        {!passwordIsValid && wasPasswordTouched && (
+        {!validate(password) && passwordTouched && (
           <p className="error-message" id="error-message-password">
-            Password can't be empty.
+            Password is invalid.
           </p>
         )}
         <br /> <br />
         <button
           type="Submit"
-          onClick={handleSubmit}
           onMouseEnter={mouseEnter}
           onMouseLeave={mouseExit}
           className={hovering ? "hovering" : "not-hovering"}
@@ -168,9 +175,9 @@ function Popup(props) {
           Submit
         </button>
       </div>
-    </div>
+    </form>
   ) : (
-    <div className = "submit-welcome">
+    <div className="submit-welcome">
       <h1> Welcome, {nameRef.current.value}!</h1>
     </div>
   );
