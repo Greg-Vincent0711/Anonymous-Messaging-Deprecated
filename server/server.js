@@ -46,6 +46,7 @@ app.post("/register", async (req, res) => {
         }
       }
     );
+    //Used for authentication
     jsonWebToken.sign(
       { userID: createdUser._id },
       jwtPrivateKey,
