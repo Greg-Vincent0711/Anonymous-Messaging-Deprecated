@@ -15,6 +15,7 @@ import axios from "axios";
  */
 
 function App() {
+  // requests get appended to this URL 
   axios.defaults.baseURL = "http://localhost:5000";
   //send cookies automatically
   axios.defaults.withCredentials = true;
